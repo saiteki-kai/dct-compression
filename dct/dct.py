@@ -25,9 +25,9 @@ def dct2n(A):
             C_temp1[k, j] = np.cos(np.pi * k * (2*j+1) / (2 * N )) * np.sqrt(2 / N)
 
     C_temp2[0, :] = 1 * np.sqrt(1/M)
-    for k in range(1, M):
-        for j in range(M):
-            C_temp2[k, j] = np.cos(np.pi * k * (2*j+1) / (2 * M )) * np.sqrt(2 / M)
+    for q in range(1, M):
+        for i in range(M):
+            C_temp2[q, i] = np.cos(np.pi * q * (2*i+1) / (2 * M )) * np.sqrt(2 / M)
 
     out = np.dot(C_temp1 , A)
     out = np.dot(out, C_temp2)
