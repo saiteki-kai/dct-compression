@@ -1,5 +1,5 @@
 import numpy as np
-from dct.dct import dct, dct2
+from dct.dct import dct2
 
 
 def test_1d():
@@ -7,7 +7,7 @@ def test_1d():
     solution = np.array(
         [4.01e02, 6.60e00, 1.09e02, -1.12e02, 6.54e01, 1.21e02, 1.16e02, 2.88e01]
     )
-    output = dct(input)
+    output = dct2(input, n_dim=False)
 
     assert np.allclose(solution, output, rtol=1)
 
@@ -86,14 +86,14 @@ def test_2d():
 
 def test_1d_zeros():
     input = np.zeros((8, 1))
-    output = dct(input)
+    output = dct2(input, n_dim=False)
 
     assert np.allclose(input, output)
 
 
 def test_1d_ones():
     input = np.ones((16, 1))
-    output = dct(input)
+    output = dct2(input, n_dim=False)
 
     solution = np.zeros((16, 1))
     solution[0] = 4
