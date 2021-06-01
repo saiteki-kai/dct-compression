@@ -1,6 +1,6 @@
 import numpy as np
-from dct.dct import dct, dct2222, dct2
-from scipy.fftpack import dctn
+from dct.dct import dct, dct2
+
 
 def test_1d():
     input = np.array([231, 32, 233, 161, 24, 71, 140, 245])
@@ -77,7 +77,7 @@ def test_2d():
     output = dct2(input)
     print(output)
 
-    n = np.linalg.norm(solution - output, 2) /  np.linalg.norm(solution)
+    n = np.linalg.norm(solution - output, 2) / np.linalg.norm(solution)
     print(n)
 
     assert np.allclose(solution, output, rtol=1)
@@ -92,16 +92,14 @@ def test_1d_zeros():
 
 
 def test_1d_ones():
-    input = np.ones((8, 1))
+    input = np.ones((16, 1))
     output = dct(input)
 
-    solution = np.zeros((8, 1))
-    solution[0] = 32
-    
-    print(output)
+    solution = np.zeros((16, 1))
+    solution[0] = 4
 
-    assert False
-    assert np.allclose(input, output)
+    assert np.allclose(solution, output)
+
 
 def test_2d_zeros():
     input = np.zeros((8, 8))
@@ -115,8 +113,6 @@ def test_2d_ones():
     output = dct2(input)
 
     solution = np.zeros((8, 8))
-    solution[0, 0] = 256
+    solution[0, 0] = 8
 
-    print(output)
-    assert False
     assert np.allclose(solution, output)
