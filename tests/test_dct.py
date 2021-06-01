@@ -1,13 +1,13 @@
 import numpy as np
-from dct.dct import dct2
+from dct.dct import dct, dct2
 
 
 def test_1d():
     input = np.array([231, 32, 233, 161, 24, 71, 140, 245])
     solution = np.array(
         [4.01e02, 6.60e00, 1.09e02, -1.12e02, 6.54e01, 1.21e02, 1.16e02, 2.88e01]
-    )
-    output = dct2(input, n_dim=False)
+    ).squeeze()
+    output = dct(input)
 
     assert np.allclose(solution, output, rtol=1)
 
@@ -81,23 +81,25 @@ def test_2d():
     print(n)
 
     assert np.allclose(solution, output, rtol=1)
-    assert False
+
 
 
 def test_1d_zeros():
     input = np.zeros((8, 1))
-    output = dct2(input, n_dim=False)
-
-    assert np.allclose(input, output)
+    output = dct(input)
+    assert np.allclose(input.squeeze(), output)
 
 
 def test_1d_ones():
     input = np.ones((16, 1))
-    output = dct2(input, n_dim=False)
+    output = dct(input)
 
-    solution = np.zeros((16, 1))
+    solution = np.zeros((16, 1)).squeeze()
     solution[0] = 4
 
+    print(solution)
+    print(output)
+    print(np.linalg.norm(output - solution, 2) / np.linalg.norm(solution))
     assert np.allclose(solution, output)
 
 
