@@ -17,7 +17,7 @@ def test_2d():
             [87, 149, 57, 192, 65, 129, 178, 228],
         ]
     )
-    solution = np.array(
+    expected = np.array(
         [
             [1.11e03, 4.40e01, 7.59e01, -1.38e02, 3.50e00, 1.22e02, 1.95e02, -1.01e02],
             [7.71e01, 1.14e02, -2.18e01, 4.13e01, 8.77e00, 9.90e01, 1.38e02, 1.09e01],
@@ -68,38 +68,45 @@ def test_2d():
 
     output = dct2(input)
 
-    assert np.allclose(solution, output, rtol=1)
+    assert np.allclose(expected, output, rtol=1)
 
 
-def test_2d_dimensions():
-    invalid = [
+@pytest.mark.parametrize(
+    "A",
+    [
         np.empty((0)),  # one value
         np.empty((1)),  # one value
         np.empty((2)),  # more than one value
+        np.empty((0, 0)),  # zero values, multidimension
         np.empty((1, 2)),  # not square
         np.empty((0, 2)),  # not square
         np.empty((1, 0)),  # not square
         np.empty((2, 2, 1)),
         np.empty((3, 3, 3)),
-    ]
+    ],
+)
+def test_2d_invalid_dimensions(A):
+    with pytest.raises(Exception) as e:
+        dct2(A)
 
-    valid = [
+        if A.shape == (0, 0):
+            assert e.type == ZeroDivisionError
+        else:
+            assert e.type == ValueError
+
+
+@pytest.mark.parametrize(
+    "A",
+    [
         np.empty((1, 1)),  # one value, multidimension
         np.empty((2, 2)),  # square
-    ]
-
-    with pytest.raises(ZeroDivisionError):
-        dct2(np.empty((0, 0)))  # zero values
-
-    with pytest.raises(ValueError):
-        for x in invalid:
-            dct2(x)
-
-    for x in valid:
-        try:
-            dct2(x)
-        except ValueError as e:
-            pytest.fail(f"An exception has been raised: {e}")
+    ],
+)
+def test_2d_valid_dimension(A):
+    try:
+        dct2(A)
+    except ValueError as e:
+        pytest.fail(f"An exception has been raised: {e}")
 
 
 def test_2d_zeros():
@@ -113,7 +120,7 @@ def test_2d_ones():
     input = np.ones((8, 8))
     output = dct2(input)
 
-    solution = np.zeros((8, 8))
-    solution[0, 0] = 8
+    expected = np.zeros((8, 8))
+    expected[0, 0] = 8
 
-    assert np.allclose(solution, output)
+    assert np.allclose(expected, output)
