@@ -1,10 +1,11 @@
 import numpy as np
 
+
 ###################################################
 # output: compute C matrix of the dct2
 # params: N integer > 0
 ###################################################
-def compute_cmatrix(N):
+def _compute_c_matrix(N):
     C = np.zeros((N, N))
 
     C[0, :] = np.sqrt(1.0 / N)
@@ -24,7 +25,7 @@ def dct(A):
         raise ValueError("matrix 'A' must be 1-dimensional")
 
     N = A.shape[0]
-    return compute_cmatrix(N).dot(A)
+    return _compute_c_matrix(N).dot(A)
 
 
 ###################################################
@@ -39,5 +40,5 @@ def dct2(A):
     if N != M:
         raise ValueError(f"Matrix 'A' ({N}x{M}) must be squared")
 
-    C = compute_cmatrix(N)
+    C = _compute_c_matrix(N)
     return C.dot(A).dot(C.T)
