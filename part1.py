@@ -1,5 +1,5 @@
 import time
-
+from os import path
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -8,37 +8,57 @@ import matplotlib.pyplot as plt
 from scipy import fftpack
 from dct.dct import dct2
 
-N = [10, 50, 100, 500, 1000, 5000, 10000]
+sizes = np.concatenate(
+    [
+        np.arange(10, 50, 5),
+        np.arange(50, 1001, 50),
+        np.arange(1000, 2001, 250),
+        np.array([5000, 10000]),
+    ]
+)
+
 data = []
-for n in N:
+for n in sizes:
     A = np.random.rand(n, n)
 
     start1 = time.time()
-    out = dct2(A)
-    end1 = time.time()
-    elapsed1 = end1 - start1
+    dct2(A)
+    elapsed1 = time.time() - start1
 
     start2 = time.time()
-    out2 = fftpack.dctn(A, type=2, norm="ortho")
-    end2 = time.time()
-    elapsed2 = end2 - start2
+    fftpack.dctn(A, type=2, norm="ortho")
+    elapsed2 = time.time() - start2
 
     x = {
         "N": n,
         "N^2": n ** 2,
         "N^3": n ** 3,
-        "dct2n_time": elapsed1,
-        "fftpack.dctn_time": elapsed2,
+        "handcrafted": elapsed1,
+        "fftpack": elapsed2,
     }
+
     data.append(x)
     print(x)
 
-df = pd.DataFrame(data)
-df = df.melt(["N"], ["dct2n_time", "fftpack.dctn_time"])
-df.to_csv("./python_results.csv")
+# Save results
 
-sns.set_style("darkgrid")
-grid = sns.lineplot(x="N", y="value", data=df, hue="variable")
-grid.set(yscale="log")
-plt.savefig("plt.svg")
+df = pd.DataFrame(data)
+df = df.melt(["N"], ["handcrafted", "fftpack", "N^2", "N^3"])
+df.to_csv(path.join("output", "results.csv"))
+
+# Plot results
+
+sns.set_style("darkgrid", {"legend.frameon": True})
+plt.figure(figsize=(10, 6))
+
+ax = sns.lineplot(x="N", y="value", data=df, hue="variable")
+ax.set_ylabel("Time (s)")
+ax.set_yscale("log")
+
+legend = plt.legend(labels=["handcrafted", "fftpack", "N^2", "N^3"], loc="upper left")
+frame = legend.get_frame()
+frame.set_facecolor("w")
+
+plt.tight_layout()
+plt.savefig(path.join("output", "results.png"), format="png", dpi=300)
 plt.show()
