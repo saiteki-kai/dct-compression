@@ -22,47 +22,11 @@ def test_2d():
             [1.11e03, 4.40e01, 7.59e01, -1.38e02, 3.50e00, 1.22e02, 1.95e02, -1.01e02],
             [7.71e01, 1.14e02, -2.18e01, 4.13e01, 8.77e00, 9.90e01, 1.38e02, 1.09e01],
             [4.48e01, -6.27e01, 1.11e02, -7.63e01, 1.24e02, 9.55e01, -3.98e01, 5.85e01],
-            [
-                -6.99e01,
-                -4.02e01,
-                -2.34e01,
-                -7.67e01,
-                2.66e01,
-                -3.68e01,
-                6.61e01,
-                1.25e02,
-            ],
-            [
-                -1.09e02,
-                -4.33e01,
-                -5.55e01,
-                8.17e00,
-                3.02e01,
-                -2.86e01,
-                2.44e00,
-                -9.41e01,
-            ],
+            [-6.99e01, -4.02e01, -2.34e01, -7.67e01, 2.66e01, -3.68e01, 6.61e01, 1.25e02],
+            [-1.09e02, -4.33e01, -5.55e01, 8.17e00, 3.02e01, -2.86e01, 2.44e00, -9.41e01],
             [-5.38e00, 5.66e01, 1.73e02, -3.54e01, 3.23e01, 3.34e01, -5.81e01, 1.90e01],
-            [
-                7.88e01,
-                -6.45e01,
-                1.18e02,
-                -1.50e01,
-                -1.37e02,
-                -3.06e01,
-                -1.05e02,
-                3.98e01,
-            ],
-            [
-                1.97e01,
-                -7.81e01,
-                9.72e-01,
-                -7.23e01,
-                -2.15e01,
-                8.13e01,
-                6.37e01,
-                5.90e00,
-            ],
+            [7.88e01, -6.45e01, 1.18e02, -1.50e01, -1.37e02, -3.06e01, -1.05e02, 3.98e01],
+            [1.97e01, -7.81e01, 9.72e-01, -7.23e01, -2.15e01, 8.13e01, 6.37e01, 5.90e00],
         ]
     )
 
@@ -74,10 +38,10 @@ def test_2d():
 @pytest.mark.parametrize(
     "A",
     [
-        np.empty((0)),  # one value
-        np.empty((1)),  # one value
-        np.empty((2)),  # more than one value
-        np.empty((0, 0)),  # zero values, multidimension
+        np.empty(0),  # one value
+        np.empty(1),  # one value
+        np.empty(2),  # more than one value
+        np.empty((0, 0)),  # zero values, multidimensional
         np.empty((1, 2)),  # not square
         np.empty((0, 2)),  # not square
         np.empty((1, 0)),  # not square
@@ -98,7 +62,7 @@ def test_2d_invalid_dimensions(A):
 @pytest.mark.parametrize(
     "A",
     [
-        np.empty((1, 1)),  # one value, multidimension
+        np.empty((1, 1)),  # one value, multidimensional
         np.empty((2, 2)),  # square
     ],
 )
