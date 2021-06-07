@@ -3,14 +3,14 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
-from app.widgets.headerbar import HeaderBar
-from app.widgets.imagesviewer import ImagesViewer
+from app.widgets.header_bar import HeaderBar
+from app.widgets.images_viewer import ImagesViewer
 
 
 class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, app):
         Gtk.Window.__init__(self, title="Part2", application=app)
-        self.set_default_size(800, 600)
+        self.set_default_size(800, 500)
 
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, expand=True)
 

@@ -3,7 +3,7 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
-from app.widgets.imagebox import ImageBox
+from app.widgets.image_box import ImageBox
 
 
 class ImagesViewer(Gtk.Box):
