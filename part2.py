@@ -10,12 +10,12 @@ import matplotlib.pyplot as plt
 from tkinter.filedialog import askopenfilename
 
 #richiesta parametri e controlli
-
 F=""
 d=""
 
 print("Buongiorno")
 
+#finestra filedialog 
 filename = askopenfilename()
 
 while F.isnumeric()!=True:
