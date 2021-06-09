@@ -52,10 +52,11 @@ for x in lista_blocchi:
 
 #eliminazione frequenze
 for x in lista_dct2:
-    for k in range(x.shape[0]):
-        for l in range(x.shape[1]):
-            if k+l>=d:
-                x[k,l]=0
+    x[d:F,]=0
+    x[:,d:F]=0
+    for k in range(d):
+        for l in range(d-k,d):
+            x[k,l]=0
 
 #applico la IDCT2 ai blocchi modificati
 lista_idct2=[]
