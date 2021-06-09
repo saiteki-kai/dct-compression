@@ -1,4 +1,4 @@
-import time
+from time import time
 from os import path
 import numpy as np
 import pandas as pd
@@ -21,13 +21,13 @@ data = []
 for n in sizes:
     A = np.random.rand(n, n)
 
-    start1 = time.time()
+    start1 = time()
     dct2(A)
-    elapsed1 = time.time() - start1
+    elapsed1 = time() - start1
 
-    start2 = time.time()
+    start2 = time()
     fftpack.dctn(A, type=2, norm="ortho")
-    elapsed2 = time.time() - start2
+    elapsed2 = time() - start2
 
     x = {
         "N": n,
@@ -44,7 +44,7 @@ for n in sizes:
 
 df = pd.DataFrame(data)
 df = df.melt(["N"], ["handcrafted", "fftpack", "N^2", "N^3"])
-df.to_csv(path.join("output", "results.csv"))
+df.to_csv(path.join("output", "part1", "results.csv"))
 
 # Plot results
 
@@ -60,5 +60,5 @@ frame = legend.get_frame()
 frame.set_facecolor("w")
 
 plt.tight_layout()
-plt.savefig(path.join("output", "results.png"), format="png", dpi=300)
+plt.savefig(path.join("output", "part1", "results.png"), format="png", dpi=300)
 plt.show()
