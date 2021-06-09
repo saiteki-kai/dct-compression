@@ -64,14 +64,10 @@ for x in lista_dct2:
 
 #arrotondamento valori
 for x in lista_idct2:
-    for k in range(x.shape[0]):
-        for l in range(x.shape[1]):
-            x[k,l]=round(x[k,l])
-            if x[k,l]<0:
-                x[k,l]=0
-            if x[k,l]>255:
-                x[k,l]=255
-                
+    for y in range(F):
+        x[y,] = x[y,].clip(0, 255)
+        x[y,] = x[y,].round()
+    
 #ricomposizione matrice immagine
 mat_ricostruzione=[]
 for y in range(n_blocchi_a):
