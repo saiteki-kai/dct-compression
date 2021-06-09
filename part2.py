@@ -63,17 +63,17 @@ for x in lista_dct2:
     lista_idct2.append(fftpack.idctn(x, norm="ortho"))
 
 #arrotondamento valori
+lista_round=[]
 for x in lista_idct2:
-    for y in range(F):
-        x[y,] = x[y,].clip(0, 255)
-        x[y,] = x[y,].round()
+    x = x.clip(0, 255)
+    lista_round.append(x.round())
     
 #ricomposizione matrice immagine
 mat_ricostruzione=[]
 for y in range(n_blocchi_a):
-    ricostruzione_righe=lista_idct2[y*n_blocchi_l]
+    ricostruzione_righe=lista_round[y*n_blocchi_l]
     for x in range(1,n_blocchi_l):
-        ricostruzione_righe=np.concatenate((ricostruzione_righe, lista_idct2[x+y*n_blocchi_l]),axis=1)
+        ricostruzione_righe=np.concatenate((ricostruzione_righe, lista_round[x+y*n_blocchi_l]),axis=1)
     mat_ricostruzione.append(ricostruzione_righe)
     
 mat_ricostruzione=np.concatenate((mat_ricostruzione),axis=0)
