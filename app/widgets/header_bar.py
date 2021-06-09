@@ -19,6 +19,7 @@ class HeaderBar(Gtk.Box):
 
         self.file_chooser = Gtk.FileChooserButton(title="Choose an image")
         self.file_chooser.set_hexpand(True)
+        self.file_chooser.set_current_folder("data")
         self.file_chooser.connect("file-set", self.on_file_changed)
         self.add(self.file_chooser)
 
