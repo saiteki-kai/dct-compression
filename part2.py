@@ -71,10 +71,7 @@ for x in lista_idct2:
 #ricomposizione matrice immagine
 mat_ricostruzione=[]
 for y in range(n_blocchi_a):
-    ricostruzione_righe=lista_round[y*n_blocchi_l]
-    for x in range(1,n_blocchi_l):
-        ricostruzione_righe=np.concatenate((ricostruzione_righe, lista_round[x+y*n_blocchi_l]),axis=1)
-    mat_ricostruzione.append(ricostruzione_righe)
+    mat_ricostruzione.append(np.concatenate((lista_round[y*n_blocchi_l:(y+1)*n_blocchi_l]),axis=1))
     
 mat_ricostruzione=np.concatenate((mat_ricostruzione),axis=0)
 
