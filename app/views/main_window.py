@@ -34,26 +34,32 @@ class MainWindow(Gtk.ApplicationWindow):
         # preload image for compression
         self.img = cv2.imread(filename, 0)
 
+    def show_message(self, message):
+        def dialog_response(widget, _):
+            widget.destroy()
+
+        messagedialog = Gtk.MessageDialog(
+            parent=self,
+            flags=Gtk.DialogFlags.MODAL,
+            type=Gtk.MessageType.ERROR,
+            buttons=Gtk.ButtonsType.CLOSE,
+            message_format=message,
+        )
+        messagedialog.connect("response", dialog_response)
+        messagedialog.show()
+
     def on_compress_clicked(self, filename, F, d):
         if not filename:
+            self.show_message("No image selected!")
             return
 
         if F < 0:
+            self.show_message("F must be greater than 0")
             return
 
         if d < 0 or d > 2 * F - 2:
-            messagedialog = Gtk.MessageDialog(
-                parent=self,
-                flags=Gtk.DialogFlags.MODAL,
-                type=Gtk.MessageType.WARNING,
-                buttons=Gtk.ButtonsType.OK_CANCEL,
-                message_format="Error",
-            )
-            # messagedialog.connect("response", self.dialog_response)
-            messagedialog.show()
+            self.show_message("d must be between 0 and 2F-2")
             return
-
-        print(f"F: {F}, d: {d}, image: {filename}")
 
         self.viewer.clear_compressed_image()
 
@@ -62,8 +68,9 @@ class MainWindow(Gtk.ApplicationWindow):
             img = cv2.imread(filename, 0)
 
         out = compress_image(img, F, d)
-        #out_filename = path.join("output", "part2", "out.bmp")
-        out_filename = path.join("output", "part2", "F_"+str(F)+"_d_"+str(d)+"_"+(filename.split("/"))[-1])
-        cv2.imwrite(out_filename, out)
 
+        basename = path.basename(filename)
+        out_filename = path.join("output", "part2", "F_%s_d_%s_%s" % (F, d, basename))
+
+        cv2.imwrite(out_filename, out)
         self.viewer.set_compressed_image(out_filename)

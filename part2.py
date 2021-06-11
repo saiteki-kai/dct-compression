@@ -1,89 +1,30 @@
-import time
-from os import path
-import numpy as np
-import pandas as pd
+import sys
+import gi
 
-from scipy import fftpack
-import os
-import cv2 as cv
-import matplotlib.pyplot as plt
-from tkinter.filedialog import askopenfilename
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, Gdk
 
-#richiesta parametri e controlli
-F=""
-d=""
+from app.views.main_window import MainWindow
 
-print("Buongiorno")
 
-#finestra filedialog 
-filename = askopenfilename()
+class App(Gtk.Application):
+    def __init__(self):
+        Gtk.Application.__init__(self)
 
-while F.isnumeric()!=True:
-    F = input('Inserisci intero "F": ')
-    if F.isnumeric()!=True:
-        print("errore, valore inserito non valido")
-F=int(F)
+    def do_activate(self):
+        win = MainWindow(self)
+        win.show_all()
 
-while d.isnumeric()!=True:
-    d = input('Inserisci intero "d": ')
-    if d.isnumeric()!=True:
-        print("errore, valore inserito non valido")
-    else:
-        if int(d)<0 or int(d)>2*F-2:
-            print('errore, valore inserito non conforme al parametro "F"')
-            d=""
-d=int(d)
+    def do_startup(self):
+        self.load_css()
+        Gtk.Application.do_startup(self)
 
-# lettura immagine
-image= cv.imread(os.path.join(filename),0)
+    def load_css(self):
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_path("./app/style.css")
+        screen = Gdk.Screen.get_default()
+        Gtk.StyleContext.add_provider_for_screen(screen, style_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
-#blocchettizzazione immagine
-lista_blocchi=[]
-n_blocchi_a=(image.shape[0])//F
-n_blocchi_l=(image.shape[1])//F
-for x in range(n_blocchi_a):
-    for y in range(n_blocchi_l):
-        lista_blocchi.append(image[x*F:((x+1)*F),y*F:((y+1)*F)])
 
-#applico la dct2 ai blocchi   
-lista_dct2=[]
-for x in lista_blocchi:
-    lista_dct2.append(fftpack.dctn(x, norm="ortho"))
-
-#eliminazione frequenze
-for x in lista_dct2:
-    if d<=F:
-        x[d:F,]=0
-        x[:,d:F]=0
-        for k in range(d):
-            for l in range(d-k,d):
-                x[k,l]=0
-    else:
-        for k in range(F):
-            for l in range(F-k-1,F):
-                x[k,l]=0
-
-#applico la IDCT2 ai blocchi modificati
-lista_idct2=[]
-for x in lista_dct2:
-    lista_idct2.append(fftpack.idctn(x, norm="ortho"))
-
-#arrotondamento valori
-lista_round=[]
-for x in lista_idct2:
-    x = x.clip(0, 255)
-    lista_round.append(x.round())
-    
-#ricomposizione matrice immagine
-mat_ricostruzione=[]
-for y in range(n_blocchi_a):
-    mat_ricostruzione.append(np.concatenate((lista_round[y*n_blocchi_l:(y+1)*n_blocchi_l]),axis=1))
-    
-mat_ricostruzione=np.concatenate((mat_ricostruzione),axis=0)
-
-#cofronto con nuova immagine
-plt.subplot(1, 2, 1)
-plt.imshow(image, cmap='gray', vmin=0, vmax=255)
-plt.subplot(1, 2, 2)
-plt.imshow(mat_ricostruzione, cmap='gray', vmin=0, vmax=255)
-plt.show()
+app = App()
+sys.exit(app.run(sys.argv))
