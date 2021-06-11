@@ -3,6 +3,7 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+import sys
 
 class HeaderBar(Gtk.Box):
     def __init__(self, on_image_changed, on_compress_clicked):
@@ -27,14 +28,14 @@ class HeaderBar(Gtk.Box):
         label_F = Gtk.Label(label="F")
         self.add(label_F)
 
-        entry_F = Gtk.SpinButton(adjustment=Gtk.Adjustment(10, 0, 1000, 1, 0, 0))
+        entry_F = Gtk.SpinButton(adjustment=Gtk.Adjustment(10, 0, sys.maxsize, 1, 0, 0))
         entry_F.connect("value-changed", self.F_selected)
         self.add(entry_F)
 
         label_d = Gtk.Label(label="d")
         self.add(label_d)
 
-        entry_d = Gtk.SpinButton(adjustment=Gtk.Adjustment(7, 0, 1000, 1, 0, 0))
+        entry_d = Gtk.SpinButton(adjustment=Gtk.Adjustment(7, 0, sys.maxsize, 1, 0, 0))
         entry_d.connect("value-changed", self.d_selected)
         self.add(entry_d)
 
