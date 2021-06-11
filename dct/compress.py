@@ -18,16 +18,16 @@ def compress_image(image, F, d):
 
     # eliminazione frequenze
     for x in lista_dct2:
-        if d<=F:
-            x[d:F,]=0
-            x[:,d:F]=0
+        if d <= F:
+            x[d:F, :] = 0
+            x[:, d:F] = 0
             for k in range(d):
-                for l in range(d-k,d):
-                    x[k,l]=0
+                for l in range(d - k, d):
+                    x[k, l] = 0
         else:
             for k in range(F):
-                for l in range(F-k-1,F):
-                    x[k,l]=0
+                for l in range(F - k - 1, F):
+                    x[k, l] = 0
 
     # applico la IDCT2 ai blocchi modificati
     lista_idct2 = []
@@ -43,11 +43,7 @@ def compress_image(image, F, d):
     # ricomposizione matrice immagine
     mat_ricostruzione = []
     for y in range(n_blocchi_a):
-        mat_ricostruzione.append(
-            np.concatenate(
-                (lista_round[y * n_blocchi_l : (y + 1) * n_blocchi_l]), axis=1
-            )
-        )
+        mat_ricostruzione.append(np.concatenate((lista_round[y * n_blocchi_l : (y + 1) * n_blocchi_l]), axis=1))
 
     out = np.concatenate((mat_ricostruzione), axis=0)
 

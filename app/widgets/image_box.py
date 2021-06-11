@@ -21,9 +21,7 @@ class ImageBox(Gtk.Box):
         self.__img.set_vexpand(True)
 
         self.__scrolled_window = Gtk.ScrolledWindow()
-        self.__scrolled_window.set_policy(
-            Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC
-        )
+        self.__scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         self.__scrolled_window.add_with_viewport(self.__img)
         self.__scrolled_window.connect("size-allocate", self.window_resized)
         self.add(self.__scrolled_window)
