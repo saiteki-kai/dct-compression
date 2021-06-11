@@ -62,7 +62,8 @@ class MainWindow(Gtk.ApplicationWindow):
             img = cv2.imread(filename, 0)
 
         out = compress_image(img, F, d)
-        out_filename = path.join("output", "part2", "out.bmp")
+        #out_filename = path.join("output", "part2", "out.bmp")
+        out_filename = path.join("output", "part2", "F_"+str(F)+"_d_"+str(d)+"_"+(filename.split("/"))[-1])
         cv2.imwrite(out_filename, out)
 
         self.viewer.set_compressed_image(out_filename)
