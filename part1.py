@@ -1,3 +1,4 @@
+#!env/bin/python3
 from time import time
 from os import path
 import numpy as np
