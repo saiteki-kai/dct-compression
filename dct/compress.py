@@ -47,13 +47,6 @@ def compress_image(image, F, d):
 
     out = np.concatenate((mat_ricostruzione), axis=0)
 
-    #cofronto con nuova immagine
-    plt.subplot(1, 2, 1)
-    plt.imshow(image, cmap='gray', vmin=0, vmax=255)
-    plt.subplot(1, 2, 2)
-    plt.imshow(mat_ricostruzione, cmap='gray', vmin=0, vmax=255)
-    plt.show()
-
     # N, M = img.shape
 
     # n_blocks = N // F
