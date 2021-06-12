@@ -6,7 +6,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from scipy import fftpack
+from scipy import fft
 from dct.dct import dct2
 
 sizes = np.concatenate(
@@ -27,7 +27,7 @@ for n in sizes:
     elapsed1 = time() - start1
 
     start2 = time()
-    fftpack.dctn(A, type=2, norm="ortho")
+    fft.dctn(A, type=2, norm="ortho")
     elapsed2 = time() - start2
 
     x = {
@@ -35,7 +35,7 @@ for n in sizes:
         "N^2": n ** 2,
         "N^3": n ** 3,
         "handcrafted": elapsed1,
-        "fftpack": elapsed2,
+        "scipy": elapsed2,
     }
 
     data.append(x)
@@ -44,7 +44,7 @@ for n in sizes:
 # Save results
 
 df = pd.DataFrame(data)
-df = df.melt(["N"], ["handcrafted", "fftpack", "N^2", "N^3"])
+df = df.melt(["N"], ["handcrafted", "scipy", "N^2", "N^3"])
 df.to_csv(path.join("output", "part1", "results.csv"))
 
 # Plot results
@@ -56,7 +56,7 @@ ax = sns.lineplot(x="N", y="value", data=df, hue="variable")
 ax.set_ylabel("Time (s)")
 ax.set_yscale("log")
 
-legend = plt.legend(labels=["handcrafted", "fftpack", "N^2", "N^3"], loc="upper left")
+legend = plt.legend(labels=["handcrafted", "scipy", "N^2", "N^3"], loc="upper left")
 frame = legend.get_frame()
 frame.set_facecolor("w")
 

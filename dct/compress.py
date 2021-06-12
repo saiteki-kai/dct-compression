@@ -1,4 +1,4 @@
-from scipy import fftpack
+from scipy import fft
 import numpy as np
 
 
@@ -14,7 +14,7 @@ def compress_image(image, F, d):
     # applico la dct2 ai blocchi
     lista_dct2 = []
     for x in lista_blocchi:
-        lista_dct2.append(fftpack.dctn(x, norm="ortho"))
+        lista_dct2.append(fft.dctn(x, norm="ortho"))
 
     # eliminazione frequenze
     for x in lista_dct2:
@@ -32,7 +32,7 @@ def compress_image(image, F, d):
     # applico la IDCT2 ai blocchi modificati
     lista_idct2 = []
     for x in lista_dct2:
-        lista_idct2.append(fftpack.idctn(x, norm="ortho"))
+        lista_idct2.append(fft.idctn(x, norm="ortho"))
 
     # arrotondamento valori
     lista_round = []
