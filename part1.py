@@ -5,16 +5,14 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-
 from scipy import fft
+
 from dct.dct import dct2
 
 sizes = np.concatenate(
     [
-        np.arange(10, 50, 5),
-        np.arange(50, 1001, 50),
-        np.arange(1000, 2001, 250),
-        np.array([5000, 10000]),
+        np.array([50, 100, 150, 200]),
+        np.arange(250, 10001, 250),
     ]
 )
 
