@@ -1,6 +1,7 @@
 #!env/bin/python3
 from time import time
 from os import path
+import math
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -9,12 +10,8 @@ from scipy import fft
 
 from dct.dct import dct2
 
-sizes = np.concatenate(
-    [
-        np.array([50, 100, 150, 200]),
-        np.arange(250, 10001, 250),
-    ]
-)
+
+sizes = np.concatenate([np.arange(8, 128, 8), np.array([160, 196, 228, 256, 512])])
 
 data = []
 for n in sizes:
@@ -30,7 +27,7 @@ for n in sizes:
 
     x = {
         "N": n,
-        "N^2": n ** 2,
+        "N^2*log(N)": n ** 2 * math.log(n),
         "N^3": n ** 3,
         "handcrafted": elapsed1,
         "scipy": elapsed2,
@@ -42,7 +39,7 @@ for n in sizes:
 # Save results
 
 df = pd.DataFrame(data)
-df = df.melt(["N"], ["handcrafted", "scipy", "N^2", "N^3"])
+df = df.melt(["N"], ["handcrafted", "scipy", "N^2*log(N)", "N^3"])
 df.to_csv(path.join("output", "part1", "results.csv"))
 
 # Plot results
@@ -54,7 +51,7 @@ ax = sns.lineplot(x="N", y="value", data=df, hue="variable")
 ax.set_ylabel("Time (s)")
 ax.set_yscale("log")
 
-legend = plt.legend(labels=["handcrafted", "scipy", "N^2", "N^3"], loc="upper left")
+legend = plt.legend(labels=["handcrafted", "scipy", "N^2*log(N)", "N^3"], loc="upper left")
 frame = legend.get_frame()
 frame.set_facecolor("w")
 
