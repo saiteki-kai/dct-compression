@@ -46,27 +46,4 @@ def compress_image(image, F, d):
         mat_ricostruzione.append(np.concatenate((lista_round[y * n_blocchi_l : (y + 1) * n_blocchi_l]), axis=1))
 
     out = np.concatenate((mat_ricostruzione), axis=0)
-
-    # N, M = img.shape
-
-    # n_blocks = N // F
-    # m_blocks = M // F
-
-    # out = np.zeros((n_blocks * F, m_blocks * F), dtype=np.uint8)
-
-    # for i in range(n_blocks):
-    #     for j in range(m_blocks):
-    #         f = img[i * F : i * F + F, j * F : j * F + F]
-    #         c = dctn(f, norm="ortho")
-
-    #         for k in range(F):
-    #             for l in range(F):
-    #                 if k + l >= d:
-    #                     c[k, l] = 0
-
-    #         ff = idctn(c, norm="ortho")
-    #         ff = ff.round().clip(0, 255)
-
-    #         out[i * F : i * F + F, j * F : j * F + F] = ff
-
     return out
